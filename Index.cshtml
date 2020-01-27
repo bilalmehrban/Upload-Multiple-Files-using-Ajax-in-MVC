@@ -1,8 +1,39 @@
-@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<fieldset>
+    <legend>Upload Multiple Files using Ajax in MVC</legend>
+
+    <input type="file" id="FileUpload1" multiple class="btn btn-default" />
+    <input type="button" id="btnUpload" value="Upload Files" class="btn btn-primary" />
+</fieldset>
+@section Scripts
 {
-    <h3>Upload Files</h3>
-    <br />
-    <input type="file" name="files" multiple class="btn btn-default" />
-    <br />
-    <button type="submit" class="btn btn-primary">Upload</button>
+    <script>
+        $(document).ready(function () {
+            $('#btnUpload').click(function () {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $("#FileUpload1").get(0);
+                    var files = fileUpload.files;
+                    var fileData = new FormData();
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                    $.ajax({
+                        url: '/Home/UploadFiles',
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (result) {
+                            alert(result);
+                            $("#FileUpload1").val("");
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                } else {
+                    alert("FormData is not supported.");
+                }
+            });
+        });
+    </script>
 }
