@@ -1,0 +1,8 @@
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <h3>Upload Files</h3>
+    <br />
+    <input type="file" name="files" multiple class="btn btn-default" />
+    <br />
+    <button type="submit" class="btn btn-primary">Upload</button>
+}
